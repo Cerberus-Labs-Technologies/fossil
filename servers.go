@@ -3,6 +3,7 @@ package fossil
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"time"
 )
 
@@ -348,6 +349,8 @@ func (c *ApplicationCredentials) GetServerExternal(externalID string) (sv *Appli
 	if err != nil {
 		return
 	}
+
+	log.Println(string(bytes))
 
 	var wrapper struct {
 		Server jsonServer `json:"attributes"`
