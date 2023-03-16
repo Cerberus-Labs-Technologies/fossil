@@ -3,7 +3,6 @@ package fossil
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"time"
 )
 
@@ -395,8 +394,6 @@ func (c *ApplicationCredentials) CreateServer(sv *ApplicationServer) (err error)
 	if err != nil {
 		return err
 	}
-
-	log.Println("Response:", string(bytes))
 
 	_, err = c.query("servers", "POST", bytes)
 	if err != nil {
