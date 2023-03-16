@@ -124,6 +124,7 @@ type Limits struct {
 	Disk        int `json:"disk"`
 	IO          int `json:"io"`
 	CPU         int `json:"cpu"`
+	Backups     int `json:"backups"`
 	Databases   int `json:"-"`
 	Allocations int `json:"-"`
 }
