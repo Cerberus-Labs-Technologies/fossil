@@ -400,6 +400,8 @@ func (c *ApplicationCredentials) CreateServer(sv *ApplicationServer) (err error)
 		return err
 	}
 
+	log.Println("Response:", string(bytes))
+
 	_, err = c.query("servers", "POST", bytes)
 	if err != nil {
 		return
