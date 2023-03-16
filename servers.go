@@ -279,14 +279,16 @@ func (s *ApplicationServer) asJSONServerCreation() *jsonServerCreation {
 
 	js.Allocation.Default = s.Allocation
 
-	log.Println("Allocation default is: ", js.Allocation.Default)
-
 	for _, alloc := range s.AllocationsDetails {
 		if s.Allocation == alloc.Port {
 			continue
 		}
 		js.Allocation.Additional = append(js.Allocation.Additional, alloc.Port)
 	}
+
+	// log js as json
+	b, _ := json.Marshal(js)
+	log.Println(string(b))
 
 	return js
 }
