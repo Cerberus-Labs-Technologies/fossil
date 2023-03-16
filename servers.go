@@ -87,14 +87,14 @@ type jsonServer struct {
 
 // jsonServerCreation stores the server info in an API-ready format for server creation
 type jsonServerCreation struct {
-	ExternalID    string            `json:"external_id"`
-	Name          string            `json:"name"`
-	Description   string            `json:"description"`
-	Limits        Limits            `json:"limits"`
-	DockerImage   string            `json:"docker_image,omitempty"`
-	Startup       string            `json:"startup"`
-	Environment   map[string]string `json:"environment"`
-	SkipScripts   bool              `json:"skip_scripts"`
+	ExternalID    string                 `json:"external_id"`
+	Name          string                 `json:"name"`
+	Description   string                 `json:"description"`
+	Limits        Limits                 `json:"limits"`
+	DockerImage   string                 `json:"docker_image,omitempty"`
+	Startup       string                 `json:"startup"`
+	Environment   map[string]interface{} `json:"environment"`
+	SkipScripts   bool                   `json:"skip_scripts"`
 	FeatureLimits struct {
 		Databases   int `json:"databases"`
 		Backups     int `json:"backups"`
@@ -133,10 +133,11 @@ type Limits struct {
 
 // Container holds all the Docker Image settings
 type Container struct {
-	StartupCommand string            `json:"startup_command"`
-	Image          string            `json:"image"`
-	Installed      int               `json:"installed"`
-	Environment    map[string]string `json:"environment"`
+	StartupCommand string `json:"startup_command"`
+	Image          string `json:"image"`
+	Installed      int    `json:"installed"`
+	// one item could be int, bool, string, etc.
+	Environment map[string]interface{} `json:"environment"`
 }
 
 // Allocation holds all the information relating to the allocation data of a server
