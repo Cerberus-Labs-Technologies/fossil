@@ -135,7 +135,7 @@ type Limits struct {
 type Container struct {
 	StartupCommand string            `json:"startup_command"`
 	Image          string            `json:"image"`
-	Installed      bool              `json:"installed"`
+	Installed      int               `json:"installed"`
 	Environment    map[string]string `json:"environment"`
 }
 
