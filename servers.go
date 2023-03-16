@@ -96,6 +96,7 @@ type jsonServerCreation struct {
 	SkipScripts   bool              `json:"skip_scripts"`
 	FeatureLimits struct {
 		Databases   int `json:"databases"`
+		Backups     int `json:"backups"`
 		Allocations int `json:"allocations"`
 	} `json:"feature_limits"`
 	User       int `json:"user"`
@@ -257,12 +258,11 @@ func (s *ApplicationServer) asJSONServerCreation() *jsonServerCreation {
 		Name:        s.Name,
 		Description: s.Description,
 		Limits: Limits{
-			Memory:  s.Limits.Memory,
-			Swap:    s.Limits.Swap,
-			Disk:    s.Limits.Disk,
-			IO:      s.Limits.IO,
-			CPU:     s.Limits.CPU,
-			Backups: s.Limits.Backups,
+			Memory: s.Limits.Memory,
+			Swap:   s.Limits.Swap,
+			Disk:   s.Limits.Disk,
+			IO:     s.Limits.IO,
+			CPU:    s.Limits.CPU,
 		},
 		User:        s.User,
 		Node:        s.Node,
@@ -274,6 +274,8 @@ func (s *ApplicationServer) asJSONServerCreation() *jsonServerCreation {
 	}
 
 	js.FeatureLimits.Databases = s.Limits.Databases
+	js.FeatureLimits.Backups = s.Limits.Backups
+
 	js.Allocation.Default = s.Allocation
 
 	for _, alloc := range s.AllocationsDetails {
