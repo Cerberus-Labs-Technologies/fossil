@@ -3,6 +3,7 @@ package fossil
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"time"
 )
 
@@ -277,6 +278,8 @@ func (s *ApplicationServer) asJSONServerCreation() *jsonServerCreation {
 	js.FeatureLimits.Backups = s.Limits.Backups
 
 	js.Allocation.Default = s.Allocation
+
+	log.Println("Allocation default is: ", js.Allocation.Default)
 
 	for _, alloc := range s.AllocationsDetails {
 		if s.Allocation == alloc.Port {
