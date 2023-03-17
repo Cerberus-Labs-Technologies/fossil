@@ -39,7 +39,7 @@ type ApplicationServer struct {
 	UUID               string
 	Suspended          bool
 	User               int
-	Node               int
+	Node               string
 	Nest               int
 	Egg                int
 	Pack               int
@@ -67,7 +67,7 @@ type jsonServer struct {
 		Allocations int `json:"allocations"`
 	} `json:"feature_limits"`
 	User          int       `json:"user"`
-	Node          int       `json:"node"`
+	Node          string    `json:"node"`
 	Allocation    int       `json:"allocation"`
 	Nest          int       `json:"nest"`
 	Egg           int       `json:"egg"`
@@ -99,8 +99,8 @@ type jsonServerCreation struct {
 		Backups     int `json:"backups"`
 		Allocations int `json:"allocations"`
 	} `json:"feature_limits"`
-	User       int `json:"user"`
-	Node       int `json:"node"`
+	User       int    `json:"user"`
+	Node       string `json:"node"`
 	Allocation struct {
 		Default    int   `json:"default,omitempty"`
 		Additional []int `json:"additional,omitempty"`
