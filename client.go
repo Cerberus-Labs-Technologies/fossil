@@ -14,7 +14,7 @@ func (c *ClientCredentials) GetServer(id string) (sv *ClientServer, err error) {
 	}
 
 	var wrapper struct {
-		Server jsonServer `json:"attributes"`
+		Server jsonServerV1 `json:"attributes"`
 	}
 
 	err = json.Unmarshal(bytes, &wrapper)

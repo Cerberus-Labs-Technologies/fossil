@@ -39,7 +39,7 @@ type ApplicationServer struct {
 	UUID               string
 	Suspended          bool
 	User               int
-	Node               string
+	Node               int
 	Nest               int
 	Egg                int
 	Pack               int
@@ -53,6 +53,38 @@ type ApplicationServer struct {
 // jsonServer is the API definition for the server, and contains all the data in it's original form.
 // It's used as the target struct in the marshalling/unmarshalling of API requests or responses.
 type jsonServer struct {
+	ID            int    `json:"id"`
+	ExternalID    string `json:"external_id"`
+	UUID          string `json:"uuid"`
+	Identifier    string `json:"identifier"`
+	Name          string `json:"name"`
+	Description   string `json:"description"`
+	Suspended     bool   `json:"suspended"`
+	ServerOwner   bool   `json:"server_owner"`
+	Limits        Limits `json:"limits"`
+	FeatureLimits struct {
+		Databases   int `json:"databases"`
+		Allocations int `json:"allocations"`
+	} `json:"feature_limits"`
+	User          int       `json:"user"`
+	Node          int       `json:"node"`
+	Allocation    int       `json:"allocation"`
+	Nest          int       `json:"nest"`
+	Egg           int       `json:"egg"`
+	Pack          int       `json:"pack"`
+	Container     Container `json:"container"`
+	UpdatedAt     time.Time `json:"updated_at"`
+	CreatedAt     time.Time `json:"created_at"`
+	Relationships struct {
+		Allocations struct {
+			Data []struct {
+				Allocation *Allocation `json:"attributes"`
+			} `json:"data"`
+		} `json:"allocations"`
+	} `json:"relationships"`
+}
+
+type jsonServerV1 struct {
 	ID            int    `json:"id"`
 	ExternalID    string `json:"external_id"`
 	UUID          string `json:"uuid"`
@@ -84,6 +116,24 @@ type jsonServer struct {
 	} `json:"relationships"`
 }
 
+// asClientServer parses a jsonServer into a *ClientServer
+func (s *jsonServerV1) asClientServer() *ClientServer {
+	cs := &ClientServer{
+		ID:          s.Identifier,
+		Name:        s.Name,
+		Description: s.Description,
+		Limits:      s.Limits,
+		IsOwner:     s.ServerOwner,
+	}
+	cs.Limits.Databases = s.FeatureLimits.Databases
+
+	for _, alloc := range s.Relationships.Allocations.Data {
+		cs.AllocationDetails = append(cs.AllocationDetails, *alloc.Allocation)
+	}
+
+	return cs
+}
+
 // jsonServerCreation stores the server info in an API-ready format for server creation
 type jsonServerCreation struct {
 	ExternalID    string                 `json:"external_id"`
@@ -99,8 +149,8 @@ type jsonServerCreation struct {
 		Backups     int `json:"backups"`
 		Allocations int `json:"allocations"`
 	} `json:"feature_limits"`
-	User       int    `json:"user"`
-	Node       string `json:"node"`
+	User       int `json:"user"`
+	Node       int `json:"node"`
 	Allocation struct {
 		Default    int   `json:"default,omitempty"`
 		Additional []int `json:"additional,omitempty"`
